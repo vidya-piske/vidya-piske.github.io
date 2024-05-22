@@ -2,6 +2,7 @@ import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import ProjectCard from "./ProjectCards";
 import Particle from "../Particle";
+import restaurantappimage from "../../Assets/restaurantappimage.png"
 
 function Projects() {
   return (
@@ -9,7 +10,7 @@ function Projects() {
       <Particle />
       <Container>
         <h1 className="project-heading">
-          My Recent <strong className="purple">Works </strong>
+          My Recent <strong className="purple">Words </strong>
         </h1>
         <p style={{ color: "white" }}>
           Here are a few projects I've worked on recently.
@@ -17,7 +18,7 @@ function Projects() {
         <Row style={{ justifyContent: "center", paddingBottom: "10px" }}>
           <Col md={4} className="project-card">
             <ProjectCard
-              // imgPath={}
+              imgPath={restaurantappimage}
               isBlog={false}
               title="Restaurant App"
               description="In our Restaurant App, embark on a journey of culinary creativity, where the seamless blend of innovation thrives. Powered by React, Python, Flask, and SQLite, witness the enchanting magic unfold as you effortlessly add, fetch, edit, and delete items, crafting a gastronomic tale."
@@ -25,7 +26,7 @@ function Projects() {
             />
           </Col>
 
-          <Col md={4} className="project-card">
+          {/* <Col md={4} className="project-card">
             <ProjectCard
               // imgPath={}
               isBlog={false}
@@ -43,7 +44,7 @@ function Projects() {
               description=""
               ghLink=""             
             />
-          </Col>
+          </Col> */}
         </Row>
       </Container>
     </Container>
