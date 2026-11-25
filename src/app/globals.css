@@ -1,26 +1,117 @@
 @import "tailwindcss";
 
+/* Dark mode is toggled with a `.dark` class on <html> */
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --paper: #fff7ef;
+  --ink: #2a2235;
+  --muted: #5b5168;
+  --line: #2a2235;
+  --board: #fffdf9;
+}
+
+.dark {
+  --paper: #16121d;
+  --ink: #f6efe6;
+  --muted: #b8aec4;
+  --line: #f6efe6;
+  --board: #1e1927;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-board: var(--board);
+
+  /* fixed pastel palette: always paired with plum text */
+  --color-plum: #2a2235;
+  --color-peach: #ffd6c4;
+  --color-peach-strong: #ff9f87;
+  --color-lilac: #e9ddff;
+  --color-lilac-strong: #b9a3ff;
+  --color-mint: #d6fbe8;
+  --color-mint-strong: #8ee6bd;
+  --color-sun: #fff0c2;
+  --color-sun-strong: #ffcf5c;
+  --color-sky: #d6f0ff;
+  --color-sky-strong: #9fd8ff;
+  --color-coral: #f07a63;
+
+  --font-display: var(--font-bricolage);
+  --font-sans: var(--font-inter);
+
+  --animate-bob: bob 7s ease-in-out infinite;
+  --animate-wiggle: wiggle 0.5s ease-in-out;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@keyframes bob {
+  50% { transform: translateY(-22px); }
+}
+@keyframes wiggle {
+  25% { transform: rotate(-4deg); }
+  75% { transform: rotate(4deg); }
+}
+
+/* Chunky "hand-drawn" outline + offset shadow used across the site */
+@utility pop {
+  border: 2px solid var(--line);
+  box-shadow: 4px 4px 0 var(--line);
+}
+@utility pop-lg {
+  border: 2px solid var(--line);
+  box-shadow: 6px 6px 0 var(--line);
+}
+/* pastel surfaces keep a plum outline in both themes, so they read as stickers */
+@utility pop-plum {
+  border: 2px solid #2a2235;
+  box-shadow: 5px 5px 0 var(--line);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 84px;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+::selection {
+  background: var(--color-sun-strong);
+  color: #2a2235;
+}
+
+/* Scroll reveal (see components/Reveal.tsx) */
+/* only hidden when JS is running (html.js is set in layout.tsx), so content never gets stuck invisible */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(28px);
+}
+.reveal {
+  transition: opacity 0.55s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.55s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.js .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Dotted board behind the stickers */
+.board-dots {
+  background-color: var(--board);
+  background-image: radial-gradient(color-mix(in srgb, var(--ink) 18%, transparent) 1.2px, transparent 1.2px);
+  background-size: 22px 22px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .js .reveal { opacity: 1; transform: none; }
 }
